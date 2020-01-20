@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>myshoppingcart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<h1>Myshoppingcart</h1>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-danger">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon text-light"></span>
+    </button>
+    <!--<img class="navbar-brand" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcReusjbZC8bTSn4e8TTn1coyGgfMQvkCvTZGLKUEQBvntzO_wGj" style="height: 70px; width: 110px;">
+  -->  <div class="collapse navbar-collapse" id="navbarNav">
+    <select class="navbar-nav" id="electronicsSelect">
+        <option value="">Electronics</option>
+        <option value="mobile">Mobile</option>
+        <option value="laptop">Laptop</option>
+
+    </select>
+
+    <select class="navbar-nav" id="bookSelect">
+        <option value="">Books</option>
+        <option value="Fiction">fiction</option>
+        <option value="comic">comic</option>
+        <option value="biography">biographies</option>
+    </select>
+    </div>
+</nav>
+
+<button>click me</button>
+<div id="product"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+    /*$('nav li').hover(
+    function() {
+        $('div', this).stop().slideDown();
+    },
+    function() {
+        $('div', this).stop().slideUp();
+    }
+    );*/
+   /* function matchwithJson(objectcheck , data) {
+        console.log("json "+ data+" "+objectcheck);
+        $(`${objectcheck}`).click(function () {
+            $.getJSON("sample-data.json", function (obj) {
+                console.log(obj);
+                $.each(obj, function (key, value) {
+                    if (value.subType == `${data}`) {
+                        console.log(key + " " + value.id);
+                    }
+                    else{
+                        console.log("data is not compare");
+                    }
+                });
+            });
+        });
+    }*/
+    jQuery('#electronicsSelect').click(function(){
+       getDropdownboxValue('#electronicsSelect');
+      // console.log('#electronicsSelect');
+    });
+
+    $('#bookSelect').click(function(){
+        getDropdownboxValue('#bookSelect');
+    });
+    
+    function getDropdownboxValue(selectedId) {
+       // console.log(`${selectedId}`);
+        jQuery(`${selectedId}`).change(function () {
+            //console.log(`${selectedId} option:selected`);
+            var selectedData = jQuery(this).val();
+            var selectedsel = jQuery(this).click(function () {
+                $.getJSON("sample-data.json", function (obj) {
+                   console.log(obj);
+                    $.each(obj, function (key, value) {
+                        var n = value.subType.localeCompare(selectedData);
+
+                        if (n==0) {
+                            console.log(key + " " + value.id + " " + n);
+                            if (value.rating >= 4) {
+                                $('#product').append(`<div class="finalproduct"> id:: ${value.id} <br> name:: ${value.name}<br>
+     price::${value.price}<br> description::${value.description}<br> brand::${value.brand}<br> ram::${value.RAM}<br>modelName::${value.modelName}<br> color::${value.color}<br>
+     battery::${value.battery}<br> imagePath::${value.imgPath}<br> ratting::${value.imgPath}<br>front camera::${value.camera.front}<br> rear camera::${value.camera.rear}<br>
+     offers::${value.offers.type}<br>and amount::${value.offers.amount}`+ jQuery.each(value.offers,function(subkey,subvalue){
+                    `offers::${value.offers.type} and amount::${value.offers.amount}`
+                                    })
+                                `</div>`);
+                            }
+                        }
+                        else{
+                            console.log("data is not compare");
+                        }
+                    });
+                });
+
+            });
+            });
+
+    }
+</script>
+</body>
+</html>
